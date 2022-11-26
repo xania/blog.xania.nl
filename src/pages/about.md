@@ -9,7 +9,7 @@ First line of code was written back in 2014 highly inspired by React.
 React was then in many ways revolutionary, especially the introduction of JSX which crashed the old
 Idea of separation of concerned in html and javascript files [blob](https://andrewray.me/blog/reacts-jsx-doesnt-violate-separation-of-concerns).
 This was just in time to prevent html includes from making it into main stream and also it prevented the [observe](https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe) too which was until then
-the pattern used by most popular UI libraries like angular, knockout, durandal.js (predecessor of aurelia.js), etc...
+the pattern used by most popular UI libraries like angular, knockout, kendo, durandal.js (predecessor of aurelia.js), etc...
 
 <div>
   <img src="/assets/dev.svg" class="sm:w-1/2 mx-auto" alt="coding dev illustration">
