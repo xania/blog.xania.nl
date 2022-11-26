@@ -10,7 +10,7 @@ import slugify from "@utils/slugify";
 import type { Frontmatter } from "src/types";
 import Socials from "@components/Socials.astro";
 
-const posts = await Astro.glob<Frontmatter>("../contents/**/*.md");
+const posts = await Astro.glob<Frontmatter>("../contents/**/*.mdx");
 
 const sortedPosts = getSortedPosts(posts);
 ---
@@ -19,7 +19,7 @@ const sortedPosts = getSortedPosts(posts);
   <Header />
   <main id="main-content">
     <section id="hero">
-      <h1>Mingalaba</h1>
+      <h1>Xania JS</h1>
       <a
         target="_blank"
         href="/rss.xml"
@@ -37,24 +37,28 @@ const sortedPosts = getSortedPosts(posts);
       </a>
 
       <p>
-        AstroPaper is a minimal, responsive and SEO-friendly Astro blog theme.
-        This theme is aimed to be accessible out of the box. Light and dark mode
-        are supported by default and additional color schemes can also be
-        configured. Read posts or see the <LinkButton
+        Xania makes it truly painless to create interactive UIs. Main goal is to
+        fix React's limitations and possible design flaws. Xania is extremely
+        adaptive to the shape of your data, and does not pin you to any shape
+        specific to the `framework`. You design the data of your application and
+        we make Xania adapt to it instead of the other way around.
+      </p>
+      <p>
+        Read posts or learn by <LinkButton
           className="hover:text-skin-accent underline underline-offset-4 decoration-dashed"
           href="https://github.com/satnaing/astro-paper#readme"
-          >documentation</LinkButton
-        > for more info.
+          >Example</LinkButton
+        >.
       </p>
-      <div class="social-wrapper">
+      <!-- <div class="social-wrapper">
         <div class="social-links">Social Links:</div>
         <Socials />
-      </div>
+      </div> -->
     </section>
 
     <Hr />
 
-    <section id="featured">
+    <!-- <section id="featured">
       <h2>Featured</h2>
       <ul>
         {
@@ -71,7 +75,7 @@ const sortedPosts = getSortedPosts(posts);
         }
       </ul>
     </section>
-
+ -->
     <Hr />
 
     <section id="recent-posts">
@@ -90,7 +94,7 @@ const sortedPosts = getSortedPosts(posts);
           )
         }
       </ul>
-      <div class="all-posts-btn-wrapper">
+      <!-- <div class="all-posts-btn-wrapper">
         <LinkButton href="/posts">
           All Posts
           <svg xmlns="http://www.w3.org/2000/svg"
@@ -99,7 +103,7 @@ const sortedPosts = getSortedPosts(posts);
             ></path>
           </svg>
         </LinkButton>
-      </div>
+      </div> -->
     </section>
   </main>
 
@@ -112,7 +116,7 @@ const sortedPosts = getSortedPosts(posts);
     @apply pt-8;
   }
   #hero h1 {
-    @apply inline-block font-bold my-4 sm:my-8 text-3xl sm:text-5xl;
+    @apply inline-block font-bold my-4 sm:my-3 text-3xl sm:text-4xl;
   }
   #hero .rss-link {
     @apply mb-6;

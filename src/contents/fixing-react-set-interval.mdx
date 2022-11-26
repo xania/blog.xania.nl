@@ -1,0 +1,118 @@
+---
+author: Ibrahim ben Salah
+datetime: 2022-11-26T15:22:00Z
+title: Fixing React (setInterval)
+featured: false
+draft: false
+tags:
+  - react
+  - comparison
+  - xania
+  - setInterval
+ogImage: ""
+description: A comparison of Dan Abramov's useInterval and an alternative solution in Xania.
+---
+
+import Counter from "./test/Counter";
+
+Ever struggle with setInterval in React?
+
+React is notoriously known for "intriguing problem"'s when trying to implement setInterval. The why and possibly the best solution
+to that is using Dan's declarative `useInterval` hook described in his [blog](https://overreacted.io/making-setinterval-declarative-with-react-hooks/)
+
+| In action
+
+<Counter client:load />
+
+First we show complete solution using the `useInterval` in React followed by a solution using `rxjs` observables in Xania.
+
+## Table of contents
+
+## React
+
+```typescript
+/** React */
+
+function Counter() {
+  const [count, setCount] = useState(0);
+  const [delay, setDelay] = useState(1000);
+
+  useInterval(() => {
+    // Your custom logic here
+    setCount(count + 1);
+  }, delay);
+
+  return (
+    <h1>
+      <div>{count}</div>
+      <input value={delay} onChange={e => setDelay(e.target.value)} />
+    </h1>
+  );
+}
+
+function useInterval(callback, delay) {
+  const savedCallback = useRef();
+
+  // Remember the latest function.
+  useEffect(() => {
+    savedCallback.current = callback;
+  }, [callback]);
+
+  // Set up the interval.
+  useEffect(() => {
+    function tick() {
+      savedCallback.current();
+    }
+    if (delay !== null) {
+      let id = setInterval(tick, delay);
+      return () => clearInterval(id);
+    }
+  }, [delay]);
+}
+```
+
+If you just care about a working solution in React you can stop reading.
+
+But me, I care about my long experience with rxjs and want to leverage that to develop my UI, and you should care too.
+
+Let see how we can fix this with rxjs.
+
+## Alternative solution with rxjs
+
+```typescript
+/** @xania/view */
+
+function Counter() {
+  const delay = new Rx.BehaviorSubject<number>(1000);
+  const count = delay.pipe(
+    Ro.switchMap(d => Rx.timer(0, d)),
+    Ro.scan(acc => acc + 1, 0)
+  );
+  return (
+    <h1>
+      <div>{count}</div>
+      <input value={delay} change={e => delay.next(e.node.value)} />
+    </h1>
+  );
+}
+```
+
+Yes, this is all! is this easy? no, not if you stuggle with rxjs.
+
+The point here is that if you do know rxjs then you can just throw that at Xania and it all works.
+If there are other reactive libraries that you rather use then
+Xania supports it too in case it support the following observable pattern
+
+## Minimal api of Observable pattern
+
+```javascript
+/** Observable pattern support in @xania/view */
+
+interface Observable<T> {
+  subscribe(observer: NextObserver<T>): Unsubscribable;
+}
+
+interface NextObserver<T> {
+  next(value: T): void;
+}
+```
