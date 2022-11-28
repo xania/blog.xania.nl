@@ -1,0 +1,56 @@
+﻿---
+author: Ibrahim ben Salah
+datetime: 2022-11-28T15:22:00Z
+title: Getting Started
+featured: true
+draft: false
+tags:
+  - xania
+ogImage: ""
+description: A comparison of Dan Abramov's useInterval and an alternative solution in Xania.
+---
+
+1. install xania npm package
+   > {" "}
+   > <code> npm i @xania/view</code>
+
+install typescript if you haven't already
+
+> <code> npm i typescript </code>
+
+2. update (or create) tsconfig.json file to include jsx settings
+
+```json
+/** /tsconfig.json */
+{
+  "compilerOptions": {
+    ...
+    "jsxFactory": "jsx.createElement",
+    "jsx": "react",
+    "jsxFragmentFactory": "jsx.createFragment",
+  }
+}
+```
+
+3. Create views using the jsx syntax
+
+```typescript
+/* index.tsx */
+import { jsxFactory } from "@xania/view"
+const jsx = jsxFactory(/** fatory options **/);
+
+export function HelloWorld() {
+  return "Hello world":
+}
+
+export function Time() {
+  const state = useState("");
+  setInterval(_ => state.update(new Date().toLocalTimeString(); ), 1000);
+  return state;
+}
+
+```
+
+4. Recommended dev packages
+
+- vite for running dev server during development (we gave up on webpack)

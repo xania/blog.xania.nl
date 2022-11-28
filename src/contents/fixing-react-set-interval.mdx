@@ -73,7 +73,11 @@ function useInterval(callback, delay) {
 
 If you just care about a working solution in React you can stop reading.
 
-But me, I care about my long experience with rxjs and want to leverage that to develop my UI, and you should care too.
+This implementation is full of gotcha's. The use of `useRef`, `useEffect` and again `useEffect` is kind of required to make this work.
+Hopefully you never have to write it yourself and yet there are cases where you would have to. Try to think of how you could use this pattern
+to connect / subscribe to external web socket. The same implementation would be needed to make sure you don't connect more than once.
+
+We, the Xania Team, also care about our long experience with rxjs where those challenges are kind of trivial and want to leverage that to develop our UI.
 
 Let see how we can fix this with rxjs.
 
@@ -99,20 +103,9 @@ function Counter() {
 
 Yes, this is all! is this easy? no, not if you stuggle with rxjs.
 
-The point here is that if you do know rxjs then you can just throw that at Xania and it all works.
-If there are other reactive libraries that you rather use then
-Xania supports it too in case it support the following observable pattern
+The point here is that this solution is totaly agnostic to whatever library your end up using.
+Maybe it's a good idea to implement a `useObservable` using the same way `useInterval` is
+implemented to support rxjs in React
 
-## Minimal api of Observable pattern
-
-```javascript
-/** Observable pattern support in @xania/view */
-
-interface Observable<T> {
-  subscribe(observer: NextObserver<T>): Unsubscribable;
-}
-
-interface NextObserver<T> {
-  next(value: T): void;
-}
-```
+But in Xania there is no effort needed as Xania has first class support for rxjs,
+In fact all the code in Xania's code snippet is agnostic to Xania itself.

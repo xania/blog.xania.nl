@@ -8,10 +8,10 @@
       "type": "node-terminal"
     },
     {
-      "type": "pwa-chrome",
+      "type": "chrome",
       "name": "Home",
       "request": "launch",
-      "url": "http://localhost:3000",
+      "url": "http://localhost:3000/demo",
       "sourceMaps": true
     },
   ]

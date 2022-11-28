@@ -1,0 +1,47 @@
+﻿---
+author: Ibrahim ben Salah
+datetime: 2022-11-28T15:22:00Z
+title: Fixing React (first class Observable)
+featured: false
+draft: false
+tags:
+  - react
+  - comparison
+  - xania
+  - setInterval
+ogImage: ""
+description: A comparison of Dan Abramov's useInterval and an alternative solution in Xania.
+---
+
+## Observables in Xania
+
+Xania support any observable that satisfies the `Observable` interface
+
+```javascript
+/** Observable pattern support in @xania/view */
+
+interface Observable<T> {
+  subscribe<TObservable extends NextObserver<T>>(observer: TNextObservable): Unsubscribable;
+}
+
+interface NextObserver<T> {
+  next(value: T): void;
+}
+```
+
+```javascript
+function Counter() {
+  export function UseStateDemo() {
+    const count = useState(0);
+
+    return (
+      <div class="element">
+        <div>Count: {count}</div>
+        <button class="mdc-button" click={_ => count.update(count.value + 1)}>
+          <span>Increment</span>
+        </button>
+      </div>
+    );
+  }
+}
+```
