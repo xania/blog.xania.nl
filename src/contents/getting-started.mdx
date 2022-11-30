@@ -10,15 +10,29 @@ ogImage: ""
 description: A comparison of Dan Abramov's useInterval and an alternative solution in Xania.
 ---
 
-1. install xania npm package
-   > {" "}
-   > <code> npm i @xania/view</code>
+## Starting new project
 
-install typescript if you haven't already
+```powershell
+npm init @xania/app hello-world
+```
 
-> <code> npm i typescript </code>
+```powershell
+cd hello-world
+npm start
 
-2. update (or create) tsconfig.json file to include jsx settings
+VITE v3.2.4  ready in 150 ms
+➜  Local:   http://localhost:3000/
+```
+
+## Existing project
+
+1. install package
+
+```powershell
+npm i @xania/view
+```
+
+2. add jsx support through configuration in tsconfig.json
 
 ```json
 /** /tsconfig.json */
@@ -28,20 +42,17 @@ install typescript if you haven't already
     "jsxFactory": "jsx.createElement",
     "jsx": "react",
     "jsxFragmentFactory": "jsx.createFragment",
+    "typeRoots" : ["@xania/view/types"]
   }
 }
 ```
 
-3. Create views using the jsx syntax
+3. Create components using the jsx syntax
 
 ```typescript
-/* index.tsx */
+/* time.tsx */
 import { jsxFactory } from "@xania/view"
-const jsx = jsxFactory(/** fatory options **/);
-
-export function HelloWorld() {
-  return "Hello world":
-}
+const jsx = jsxFactory(/** factory options **/);
 
 export function Time() {
   const state = useState("");
@@ -51,6 +62,12 @@ export function Time() {
 
 ```
 
-4. Recommended dev packages
+4. Render to HTML
 
-- vite for running dev server during development (we gave up on webpack)
+```typescript
+/* app.tsx */
+import { render } from "@xania/view";
+import Time from "./time";
+
+render(<Time />, document.body);
+```

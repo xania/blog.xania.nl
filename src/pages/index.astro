@@ -8,7 +8,6 @@ import Card from "@components/Card";
 import getSortedPosts from "@utils/getSortedPosts";
 import slugify from "@utils/slugify";
 import type { Frontmatter } from "src/types";
-import Socials from "@components/Socials.astro";
 
 const posts = await Astro.glob<Frontmatter>("../contents/**/*.mdx");
 
@@ -38,7 +37,7 @@ const sortedPosts = getSortedPosts(posts);
 
       <p>
         Xania makes it truly painless to create interactive UIs. Main goal is to
-        fix React's limitations and possible design flaws. Xania is extremely
+        fix React's limitations and arguably design flaws. Xania is extremely
         adaptive to the shape of your data, and does not pin you to any shape
         specific to the `framework`. You design the data of your application and
         we make Xania adapt to it instead of the other way around.
@@ -58,7 +57,7 @@ const sortedPosts = getSortedPosts(posts);
 
     <Hr />
 
-    <!-- <section id="featured">
+    <section id="featured">
       <h2>Featured</h2>
       <ul>
         {
@@ -75,7 +74,7 @@ const sortedPosts = getSortedPosts(posts);
         }
       </ul>
     </section>
- -->
+
     <Hr />
 
     <section id="recent-posts">
