@@ -1,0 +1,98 @@
+﻿---
+author: Ibrahim ben Salah
+datetime: 2022-12-08
+title: How is xania this fast rant
+featured: false
+draft: true
+tags:
+  - react
+  - comparison
+  - xania
+  - closures
+ogImage: ""
+description: Performance
+---
+
+How is xania [this](https://krausest.github.io/js-framework-benchmark/current.html) fast?
+
+### Is xania using a compiler
+
+No
+
+Let's first underline the fact that xania is 'just' a configure-less library -- aside from jsx factory configuration -- that can be included in any type of project.
+
+Adding a compiler to the mix would also add complexity the project setup. I don't want xania to be a locked-in framework and a compiler like that will lock at least some of the doors I belief.
+
+This idea was especially inspired by Angular, not in the positive way. I hated the fact that Angular was and still is taking control of everything, there was no way to include features from Angular into my ASP.NET project using Razor to generate html. I tried first but it was just painfull to see that everytime I made progress something on the tooling side breaks, so eventuall I had to give up on Razor.
+
+So no compiler for xania
+
+### Is Xania just vanillajs in disguise
+
+Also, No
+
+Xania doesn't add any of the burden on the developers writing components. Writing Xania feels like writing React also pretty much focused around writing JSX. Components in Xania are just functions, when declared can be called from everywhere like any other function.
+
+And also **Xania is blazingly fast**. But how?
+
+##### Xania has first class support for promises and observables.
+
+From the perspective of performance this is very important. Xania is not getting in your way if you want your functions to be async or use reactive library like rxjs.
+This also means Xania doesn't have walls of complexity to support reactivity anyway in an unnatural fashion like React.js had to do with `useEffect`.
+When a Promise value is included in the JSX then xania will suspense untill that promise is resolved, resulting in that the complete view is wrapped in a Promise too which we can imbed into another view like any other element.
+
+```typescript
+const C = () => <div>{Promise.resolve("hello")}</div>;
+const b = <C /> instanceof Promise; // => true
+
+function App() {
+  return (
+    <div id="app">
+      /** embed async component */
+      <C />
+    </div>
+  );
+}
+```
+
+And offcourse we can just use async/await like we are used to and this will have the same effect in that the return of `C()` is also a Promise
+
+```typescript
+const C = async () => <div>{await Promise.resolve("hello")}</div>;
+const b = C() instanceof Promise; // => true
+```
+
+##### A Xania component are executed once.
+
+Runnig just once is faster, no doubt about that, but also it's pushing into better design of pure functions.
+
+Say we have a pure component `MyComponent` that's using the counter state
+
+```typescript
+/** react component */
+function MyComponent() {
+  const [counter, setCounter] = useState(0);
+  return (
+    <div>
+      <span>{counter}</span>
+      <button click={_ => setCounter(couter + 1)}></button>
+    </div>
+  );
+}
+```
+
+Having pure component is important, but after `setCount`, the state of your component is invalidated and therefore we need to re-render the component?
+
+No, React.js totally missed the mark on this one.
+Bear with me on this because it's important.
+If we just don't have a changing count value then re-rendering would not be needed. Instead, the return value should include all the required instructions imbedded in the JSX so that the _view engine_ is able to hande the updates
+
+Think of this as the IO monad in Haskell which is known to be pure.
+
+```haskell
+main :: IO ()
+main =  do c <- getChar
+           putChar c
+```
+
+`getChar` and `putChar` are instructions to perform side effects, but is `main` here inpure? no, because those are just declarations of what need to happen and the execution is delayed untill the runtime of haskell executes the instr
