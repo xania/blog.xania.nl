@@ -19,7 +19,10 @@ How is xania [this](https://krausest.github.io/js-framework-benchmark/current.ht
 
 No
 
-Let's first underline the fact that xania is 'just' a configure-less library -- aside from jsx factory configuration -- that can be included in any type of project.
+Using a compiler adds risk to interopability with other libraries so we don't include it, and frankly there is no need for it.
+Atleast not for now and definitely not for the core features of _Xania_ like reactivity, yet we might want to add an optional transpiler/transformer in the future to allow for some syntax sugar.
+
+Let's first underline the fact that xania is 'just' a UI library -- aside from jsx factory configuration -- that can be included in any type of project.
 
 Adding a compiler to the mix would also add complexity the project setup. I don't want xania to be a locked-in framework and a compiler like that will lock at least some of the doors I belief.
 

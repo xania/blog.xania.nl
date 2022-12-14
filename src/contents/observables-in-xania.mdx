@@ -10,7 +10,7 @@ tags:
   - xania
   - setInterval
 ogImage: ""
-description: A comparison of Dan Abramov's useInterval and an alternative solution in Xania.
+description: rxjs in Xania.
 ---
 
 ## Observables in Xania
@@ -37,7 +37,7 @@ function Counter() {
     return (
       <div class="element">
         <div>Count: {count}</div>
-        <button class="mdc-button" click={_ => count.update(count.value + 1)}>
+        <button class="mdc-button" click={_ => count.update(c => c + 1)}>
           <span>Increment</span>
         </button>
       </div>

@@ -1,0 +1,39 @@
+﻿---
+author: Ibrahim ben Salah
+datetime: 2022-11-26T15:22:00Z
+title: Lazy values
+featured: false
+draft: false
+tags:
+  - react
+  - comparison
+  - xania
+  - className
+ogImage: ""
+description:
+---
+
+lazy values can assigned to attributes or content of elmnt. applied only after activation
+
+useful when we want to conditionally apply e.g. class value to an element
+
+```jsx
+function TodoItem() {
+  const context = useContext<TodoItem>();
+  const editing = context.lazy("editing");
+
+  // or simply create lazy as follows
+  // const editing = new Lazy<TodoItem, string>("editing");
+
+  return (
+    // class
+    <div class={editing}>
+      <button click={e => editing.apply(e.data)}></button>
+    </div>
+  )
+}
+```
+
+`editing.apply` must be called with context data value.
+
+Lazy values are not applied during initial render which results in better startup performance. Also, updates are very effective because when we select the data we can almost directly target the corresponding node for applying the change resulting in yet another performance boost of _Xania_.

@@ -1,0 +1,48 @@
+﻿---
+author: Ibrahim ben Salah
+datetime: 2022-11-26T15:22:00Z
+title: Fixing React (className)
+featured: false
+draft: true
+tags:
+  - react
+  - comparison
+  - xania
+  - className
+ogImage: ""
+description: Fixing closures gotcha's in React
+---
+
+https://betterprogramming.pub/a-react-hooks-challenge-for-senior-react-developers-f1190e1939ec
+
+use `class` instead of `className`, but because `className` is inumbiguous we support it too.
+
+The beautiful thing about _React_ is that it make it possible to have an expression like
+
+```javascript
+function MyComponent() {
+  const theme = "theme-dark";
+  const shadow = "mdc-elevation-z4";
+  return <div className={`${theme} ${shadow}`}></div>;
+}
+```
+
+As you can see, this is very easy to read and understand. But I belief this is naively easy not simple.
+Because _React_ only knowns about the concatenated value of the class atttribute and is not aware of the value `shadow` e.g. it will never be able to have fine grain update of the classList in case only the `shadow` is changed. The performance argument could be made here but more importantly is that _React_ is fundamentally not capable of other composition patterns which we are gonna talk about next.
+
+let's add additinoal class as a prop attribute of `MyComponent`
+
+```typescript
+interface MyComponentProps {
+  extra: string;
+}
+function MyComponent(props: MyComponentProps) {
+  const { extra } = props;
+  const theme = "theme-dark";
+  const shadow = "mdc-elevation-z4";
+  return <div className={`${theme} ${shadow} ${extra}`}></div>;
+}
+```
+
+From the point of view of composability, any value that contributes to the final class name of the div element must be known by MyComponent so that it's able to squash it all to a single class value. `MyComponent` has to know about all of them which is not ideal.
+but I can't just add that into the className
